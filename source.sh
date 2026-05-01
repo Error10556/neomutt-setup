@@ -1,11 +1,11 @@
 #!/bin/env bash
 
-] version
+] version.sh
 
-] colors
+] colors.sh
 
-] argparse
+] argparse.sh
 
-] rootcheck
+] rootcheck.sh
 
 echo "VERSION: $VERSION"
