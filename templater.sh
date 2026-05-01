@@ -18,7 +18,7 @@ fi
 
 while read line; do
     if [ "${line:0:1}" = ']' ]; then
-        cat <templates/"$(trimleft "${line#]}")"
+        "$0" templates/"$(trimleft "${line#]}")"
         continue
     fi
     printf $'%s\n' "$line"
