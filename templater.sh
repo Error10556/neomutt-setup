@@ -16,7 +16,8 @@ if [ $# = 0 ]; then
     exit 1
 fi
 
-while read line; do
+while read -r; do
+    line="$REPLY"
     if [ "${line:0:1}" = ']' ]; then
         "$0" templates/"$(trimleft "${line#]}")"
         continue
