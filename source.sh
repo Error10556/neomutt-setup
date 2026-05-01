@@ -4,6 +4,8 @@
 
 ] colors
 
+] argparse
+
 ] rootcheck
 
 echo "VERSION: $VERSION"
