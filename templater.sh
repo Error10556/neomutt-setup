@@ -17,7 +17,7 @@ if [ $# = 0 ]; then
 fi
 
 while read line; do
-    if [ "${line:1:1}" = ']' ]; then
+    if [ "${line:0:1}" = ']' ]; then
         cat <templates/"$(trimleft "${line#]}")"
         continue
     fi
