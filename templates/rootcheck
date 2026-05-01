@@ -7,4 +7,5 @@ if [ "$(id -u)" = 0 ]; then
 Если у Вас нет выбора, запустите с флагом --ignore-root.
 EOF
     console.normal
+    exit 1
 fi
