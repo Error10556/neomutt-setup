@@ -18,10 +18,15 @@ depscheck || exit 1
 
 ] gpg/fn_all.sh
 while ! check_gpg_has_secrets; do
-    console.red
-    echo "У вас, похоже, нет ключа GPG."
-    console.normal
+    echo "${CONSOLE_RED}У Вас, похоже, нет ключа GPG.${CONSOLE_NORMAL}"
     gpg_setup_guide || exit 0
 done
+
+] pass/fn_init_pass.sh
+
+if ! pass_directory_exists; then
+    echo "${CONSOLE_RED}У Вас, похоже, не настроен pass.${CONSOLE_NORMAL}"
+    guide_setup_pass || exit 1
+fi
 
 echo "VERSION: $VERSION"
