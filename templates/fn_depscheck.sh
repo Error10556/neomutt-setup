@@ -30,7 +30,7 @@ depscheck() {
     echo
 
     if [ "${#not_installed[@]}" = 0 ]; then
-        echo "${CONSOLE_GREEN}Все зависимости установлены${CONSOLE_RED}"
+        echo "${CONSOLE_GREEN}Все зависимости установлены${CONSOLE_NORMAL}"
         return 0
     else
         printf "Следующие зависимости (%s) " "${#not_installed[@]}"
