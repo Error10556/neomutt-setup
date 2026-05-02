@@ -3,13 +3,14 @@ depscheck() {
     dependency_installed() {
         which "$1" &>/dev/null </dev/null
     }
-    declare -a not_installed
+    local -a not_installed
     printf "Установленные зависимости: "
-    first_installed=1
+    local first_installed=1
+    local dep
     for dep in "${DEPENDENCIES[@]}"; do
         if dependency_installed "$dep"; then
             if [ $first_installed = 1 ]; then
-                first_installed=0
+                local first_installed=0
             else
                 printf '; '
             fi
@@ -40,6 +41,7 @@ depscheck() {
         console.normal
         echo ":"
 
+        local dep
         for dep in "${not_installed[@]}"; do
             printf "%s" "- "
             console.red
