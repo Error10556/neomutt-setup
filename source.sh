@@ -4,6 +4,8 @@
 
 ] colors.sh
 
+trap 'console.normal; echo; exit 1' INT
+
 ] argparse.sh
 
 ] rootcheck.sh
