@@ -29,4 +29,30 @@ if ! pass_directory_exists; then
     guide_setup_pass || exit 1
 fi
 
+] fn_launcher.sh
+if ! path_contains_localbin; then
+    echo "${CONSOLE_RED}Похоже, ~/.local/bin не входит в PATH${CONSOLE_NORMAL}"
+    while :; do
+        ans=$(dialog_options "0=Стоп, я разберусь самостоятельно" \
+            "!=Добавить запись ~/.local/bin в PATH с помощью записи в .bashrc" \
+            "?=Зачем добавлять ~/.local/bin?")
+        case $ans in
+            0) exit 1;;
+            !)
+                add_localbin_to_path_bashrc
+                console.red
+                echo "ПОЖАЛУЙСТА, перезапустите терминал сейчас!"
+                console.normal
+                exit 0;;
+            ?)
+                mlscr="${CONSOLE_BLUE}emails${CONSOLE_NORMAL}"
+                cat <<EOF
+Я добавлю скрипт $mlscr в эту папку. С его помощью можно будет открывать почту.
+EOF
+                ;;
+        esac
+    done
+fi
+setup_launcher
+
 echo "VERSION: $VERSION"
