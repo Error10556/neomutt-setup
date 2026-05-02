@@ -16,7 +16,7 @@ EOF
     fi
     if ! gpg --full-gen-key; then
         console.red
-        echo "Программа завершилась с ошибкой. Прерываем установщик."
+        echo "Программа gpg завершилась с ошибкой. Прерываем установщик."
         console.normal
         exit 1
     fi
