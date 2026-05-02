@@ -8,16 +8,20 @@ guide_setup_pass() {
     console.blue
     echo "pass init <идентификаторы>"
     console.normal
+    local pas="${CONSOLE_BLUE}pass${CONSOLE_NORMAL}"
     cat <<EOF
-Это настроит менеджер паролей ${CONSOLE_BLUE}pass${CONSOLE_NORMAL} для
-использования с email-клиентом. Этот установщик не поддерживает других
-способов хранения паролей.
+Это настроит менеджер паролей $pas для использования с email-клиентом. Этот
+установщик не поддерживает других способов хранения паролей.
 EOF
     local ans="$(dialog_options "0=Стоп, я разберусь самостоятельно" \
         "1=Продолжить")"
     if [ $ans = 0 ]; then
         return 1
     fi
+    cat <<EOF
+Выберите идентификаторы GnuPG, для которых нужно шифровать пароли.
+EOF
+
     enumerate() {
         i=0
         while read -r; do
