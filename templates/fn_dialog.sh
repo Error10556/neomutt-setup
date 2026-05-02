@@ -3,10 +3,7 @@ print_options() {
     for opt in "$@"; do
         local key="${opt%=*}"
         local val="${opt#*=}"
-        console.green
-        printf "%s" "$key"
-        console.normal
-        printf $': %s\n' "$val"
+        printf "%s%s%s: %s\n" "$CONSOLE_BLUE" "$key" "$CONSOLE_NORMAL" "$val"
     done
 }
 
@@ -45,8 +42,6 @@ dialog_options() {
             printf "%s" "$ans"
             return 0
         fi
-        console.red >&2
-        echo 'Такого варианта нет!' >&2
-        console.normal >&2
+        echo "${CONSOLE_RED}Такого варианта нет!${CONSOLE_NORMAL}" >&2
     done
 }

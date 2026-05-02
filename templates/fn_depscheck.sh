@@ -30,16 +30,11 @@ depscheck() {
     echo
 
     if [ "${#not_installed[@]}" = 0 ]; then
-        console.green
-        echo "Все зависимости установлены"
-        console.normal
+        echo "${CONSOLE_GREEN}Все зависимости установлены${CONSOLE_RED}"
         return 0
     else
         printf "Следующие зависимости (%s) " "${#not_installed[@]}"
-        console.red
-        printf "не установлены"
-        console.normal
-        echo ":"
+        echo "${CONSOLE_RED}не установлены${CONSOLE_NORMAL}:"
 
         local dep
         for dep in "${not_installed[@]}"; do
