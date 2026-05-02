@@ -7,3 +7,6 @@ console.green() {
 console.normal() {
     tput sgr0
 }
+console.blue() {
+    tput setaf 4
+}
