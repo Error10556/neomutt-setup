@@ -1,6 +1,7 @@
 #!/bin/env bash
 
 ] version.sh
+] fn_version.sh
 
 ] colors.sh
 

@@ -21,7 +21,7 @@ setup_launcher() {
     mkdir -p "$LOCALBIN"
     if [ ! -f "$LAUNCHERNAME" ] || ! file_is_uptodate "$LAUNCHERNAME"; then
         cat >"$LAUNCHERNAME" <<EOF_LAUNCHER
-] launcher.sh
+] ../build/templates/launcher-escaped.sh
 EOF_LAUNCHER
         echo "Установлен лаунчер ${CONSOLE_BLUE}emails${CONSOLE_NORMAL}"
     fi
