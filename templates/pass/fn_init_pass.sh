@@ -32,10 +32,8 @@ EOF
     local -a opts
     local i=0
     local ids="$(gpg_identities_with_secrets)"
-    local colored_ids="$(sed -E \
-        "s/(.*)<([^>]*)>(.*)/\\1<${CONSOLE_BLUE}\\2${CONSOLE_NORMAL}>\\3/" \
-        <<<"$ids")"
-    local emails_str="$(sed -E 's/.*<([^>]*)>.*/\1/' <<<"$ids")"
+    local colored_ids="$(color_emails_in_angles <<<"$ids")"
+    local emails_str="$(extract_emails_from_angles <<<"$ids")"
     unset ids
     local -a emails
     while read -r; do
