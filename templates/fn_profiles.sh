@@ -25,7 +25,7 @@ EOF
                 "!=${CONSOLE_RED}Удалить${CONSOLE_NORMAL}" \
                 ".=Оставить как есть, потому что там правильный пароль")
             case $ans in
-                ?) 
+                \?) 
                     pass mail/"$email" || true
                     continue;;
                 !) 
@@ -65,7 +65,7 @@ EOF
         local ans=$(dialog_options "${opts[@]}")
         case $ans in
             0) return 1;;
-            ?)
+            \?)
                 $provider_guide || true
                 continue;;
             .) break;;

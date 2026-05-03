@@ -50,7 +50,7 @@ if ! path_contains_localbin; then
                 echo "ПОЖАЛУЙСТА, перезапустите терминал сейчас!"
                 console.normal
                 exit 0;;
-            ?)
+            \?)
                 mlscr="${CONSOLE_BLUE}emails${CONSOLE_NORMAL}"
                 cat <<EOF
 Я добавлю скрипт $mlscr в эту папку. С его помощью можно будет открывать почту.
