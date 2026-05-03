@@ -14,7 +14,8 @@ pass_insert_guide() {
     local blue_email="$CONSOLE_BLUE$email$CONSOLE_NORMAL"
     local provider="${email##*@}"
     provider="${provider,,}"
-    if [ -f "$HOME/.password-store/mail/$email" ]; then
+    local pass_entry_path="$HOME/.password-store/mail/$email.gpg"
+    if [ -f "$pass_entry_path" ]; then
         cat <<EOF
 Кажется, запись для $blue_email уже есть в менеджере паролей.
 EOF
@@ -30,10 +31,11 @@ EOF
                     pass mail/"$email" || true
                     continue;;
                 !) 
+                    
                     cat <<EOF
-Выполняю ${CONSOLE_RED}rm mail/$email${CONSOLE_NORMAL}...
+Выполняю ${CONSOLE_RED}rm "$pass_entry_path"${CONSOLE_NORMAL}...
 EOF
-                    rm mail/"$email";;
+                    rm "$pass_entry_path";;
                 .) return 0;;
             esac
             break
