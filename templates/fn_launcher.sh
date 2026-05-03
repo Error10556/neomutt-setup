@@ -17,19 +17,13 @@ export PATH="\$PATH:$LOCALBIN"
 EOF
 }
 
-need_overwrite_launcher() {
-    ver_regex="$(sed 's/\./\\./g' <<<"$VERSION")"
-    ! head -n 2 "$LAUNCHERNAME" | tail -n 1 \
-        | grep -E -o "^VERSION=$ver_regex\$" &>/dev/null
-}
-
 setup_launcher() {
     mkdir -p "$LOCALBIN"
-    if [ ! -f "$LAUNCHERNAME" ] || need_overwrite_launcher; then
+    if [ ! -f "$LAUNCHERNAME" ] || ! file_is_uptodate "$LAUNCHERNAME"; then
         cat >"$LAUNCHERNAME" <<EOF_LAUNCHER
 ] launcher.sh
 EOF_LAUNCHER
         echo "Установлен лаунчер ${CONSOLE_BLUE}emails${CONSOLE_NORMAL}"
     fi
-    chmod 550 "$LAUNCHERNAME"
+    chmod 750 "$LAUNCHERNAME"
 }

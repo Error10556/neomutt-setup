@@ -1,5 +1,5 @@
 #!/bin/bash
-] version.sh
+#VERSION $VERSION
 
 for arg in "\$@"; do
     if [ "\$arg" = "-h" -o "\$arg" = "--help" ]; then
