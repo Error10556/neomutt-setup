@@ -2,11 +2,11 @@ PROFILEDIR="$HOME/.config/neomutt_setup/configs"
 
 mkdir -p "$PROFILEDIR"
 
-declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_guide)
+] provider_password_guides/fn_gmail.sh
+] provider_password_guides/fn_yandex.sh
 
-gmail_guide() {
-    echo "${CONSOLE_RED}NOT IMPLEMENTED${CONSOLE_NORMAL}"
-}
+declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_password_guide \
+    ["yandex.ru"]=yandex_password_guide)
 
 # pass_insert_guide <email>
 # $? != 0  =>  aborted
