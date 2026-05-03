@@ -6,9 +6,13 @@ build/neomutt-setup.sh: source.sh templates/* \
 	./templater.sh source.sh >$@
 	chmod +x $@
 
-build/templates/launcher-escaped.sh: templates/launcher.sh templater.sh \
+build/templates/launcher-escaped.sh: build/templates/launcher.sh \
 	bash-escaper.sh | build/templates
 	./bash-escaper.sh <$< >$@
+
+build/templates/launcher.sh: templates/launcher.sh templater.sh \
+	| build/templates
+	./templater.sh $< >$@
 
 build/templates: | build
 	mkdir build/templates

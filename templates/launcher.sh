@@ -1,34 +1,62 @@
 #!/bin/bash
 VERSION=???
 
+] colors.sh
+
+trap 'console.normal; echo; exit 1' INT
+
 for arg in "$@"; do
     if [ "$arg" = "-h" -o "$arg" = "--help" ]; then
         cat <<EOF
-VERSION $VERSION
-Usage:
+Лаунчер emails $VERSION
+Использование:
 $0 --help|-h  (1)
-$0 [name]     (2)
+$0 name       (2)
+$0            (3)
 
-(1) Show this message
-(2) If name is specified, launch neomutt on any profile starting with 'name'.
-    Otherwise, launch neomutt on any profile.
+(1) Показать эту справку
+(2) Запустить neomutt на любом профиле, начинающемся на 'name'.
+(3) Интерактивно выбрать профиль, затем запустить neomutt.
 
-Examples:
+Примеры:
 $0 t
-(this would open 'torvalds@linux-foundation.org' if such a profile existed)
+(Это откроет 'torvalds@linux-foundation.org', если такой профиль существует)
 EOF
+        exit 0
     fi
 done
 
+] fn_dialog.sh
+
+CONFIGS="$HEAD/.config/neomutt_setup/configs"
+
 if [ $# -gt 0 ]; then
-    configdir="$(find ~/.config/neomutt_setup/configs/ -mindepth 1 \
+    configdir="$(find "$CONFIGS" -mindepth 1 \
         -maxdepth 1 -name "$1*" -a -type d | head -n 1)"
     if [ -z "$configdir" ]; then
-        echo "Profile not found" >&2
+        echo "Профиль не найден" >&2
         exit 1
     fi
     basename "$configdir"
-    neomutt -F "$configdir/neomuttrc"
-else
-    "$0" ""
+    exec neomutt -F "$configdir/neomuttrc"
 fi
+
+declare -a options=(0=Отмена)
+declare -a configdirs=()
+configdirs_str="$(find "$CONFIGS" -mindepth 1 -maxdepth 1 -type d)"
+i=0
+while read -r; do
+    test ! -z "$REPLY" || continue
+    profile="$(basename "$REPLY")"
+    options+=("$((++i))=$profile")
+    configdirs+=("$REPLY")
+done<<<"$configdirs_str"
+unset configdirs_str
+
+if [ $i = 0 ]; then
+    echo "Нет профилей"
+    exit 1
+fi
+ans=$(dialog_options "${options[@]}")
+if [ $ans = 0 ]; then exit 0; fi
+exec neomutt -F "${configdirs[$((ans - 1))]}/neomuttrc"
