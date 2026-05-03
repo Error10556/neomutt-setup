@@ -4,6 +4,12 @@
 
 ] colors.sh
 
+cat <<EOF
+Neomutt Setup $VERSION
+Тимур Усманов, 2026
+На условиях GNU General Public License v3
+EOF
+
 trap 'console.normal; echo; exit 1' INT
 
 ] argparse.sh
@@ -55,4 +61,16 @@ EOF
 fi
 setup_launcher
 
-echo "VERSION: $VERSION"
+] fn_profiles.sh
+
+main_action() {
+    declare -a options=("+=Добавить почтовый ящик")
+    options+=("0=Выйти" "Q=Выйти")
+    ans=$(dialog_options "${options[@]}")
+    case $ans in
+        +) new_profile_guide || true;;
+        0 | q) exit 0;;
+    esac
+}
+
+while :; do echo; main_action; done
