@@ -67,6 +67,7 @@ main_action() {
     declare -a options=("+=Добавить почтовый ящик")
     options+=("0=Выйти" "Q=Выйти")
     ans=$(dialog_options "${options[@]}")
+    echo
     case $ans in
         +) new_profile_guide || true;;
         0 | q) exit 0;;

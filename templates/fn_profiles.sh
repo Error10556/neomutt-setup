@@ -24,6 +24,7 @@ EOF
                 "?=Посмотреть, какой там сохранён пароль" \
                 "!=${CONSOLE_RED}Удалить${CONSOLE_NORMAL}" \
                 ".=Оставить как есть, потому что там правильный пароль")
+            echo
             case $ans in
                 \?) 
                     pass mail/"$email" || true
@@ -47,6 +48,7 @@ EOF
 EOF
         unset blue_provider
         local ans=$(dialog_options "N=Не нужно" "Y=Да, пожалйуста")
+        echo
         test $ans = n || $provider_guide
     fi
 
@@ -63,6 +65,7 @@ EOF
             opts+=("?=Как получить пароль?")
         fi
         local ans=$(dialog_options "${opts[@]}")
+        echo
         case $ans in
             0) return 1;;
             \?)
@@ -80,6 +83,7 @@ EOF
 Кажется, программа pass завершилась с ошибкой.
 EOF
         local ans=$(dialog_options 0=Отмена ".=Попробовать снова")
+        echo
         if [ $ans = 0 ]; then return 1; fi
     done
 }
@@ -90,18 +94,21 @@ new_profile_guide() {
 Сейчас мы создадим новый профиль, то есть настроим новый почтовый ящик.
 EOF
     local ans=$(dialog_options .=Продолжить 0=Отмена)
+    echo
     if [ $ans = 0 ]; then
         return 1
     fi
     while :; do
         echo "Введите адрес электронной почты"
         local email="$(dialog_getline_nonempty)"
+        echo
         local blue_email="${CONSOLE_BLUE}$email${CONSOLE_NORMAL}"
         cat <<EOF
 Это правильный адрес: $blue_email?
 EOF
         local ans=$(dialog_options 0=Отмена "R=Нет, ввести снова" \
             "N=Нет, ввести снова" "Y=Да, продолжить" ".=Да, продолжить")
+        echo
         case "$ans" in
             0) return 1;;
             r | n) continue;;

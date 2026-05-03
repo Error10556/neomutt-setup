@@ -15,6 +15,7 @@ guide_setup_pass() {
 EOF
     local ans="$(dialog_options "0=Стоп, я разберусь самостоятельно" \
         "1=Продолжить")"
+    echo
     if [ $ans = 0 ]; then
         return 1
     fi
