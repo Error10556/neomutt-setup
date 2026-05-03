@@ -94,10 +94,9 @@ EOF
         return 1
     fi
     while :; do
-        printf "Адрес электронной почты: ${CONSOLE_BLUE}"
+        echo "Введите адрес электронной почты"
         local email="$(dialog_getline_nonempty)"
         local blue_email="${CONSOLE_BLUE}$email${CONSOLE_NORMAL}"
-        console.normal
         cat <<EOF
 Это правильный адрес: $blue_email?
 EOF
