@@ -124,7 +124,13 @@ EOF
         return 1
     fi
 
+    gpg_adduid_guide_if_needed "$email" || return 1
+
     pass_insert_guide "$email" || return 1
+
+    local realname="$(gpg_identities_with_secrets | grep -F "<$email>")"
+    realname="${realname%% <*}"
+    realname="${realname%% (*}"
 
     mkdir -p "$PROFILEDIR/$email"
 
