@@ -2,7 +2,7 @@ PROFILEDIR="$HOME/.config/neomutt_setup/configs"
 
 mkdir -p "$PROFILEDIR"
 
-PROVIDER_PASSWORD_HELP=([gmail.com]=gmail_guide)
+declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_guide)
 
 gmail_guide() {
     echo "${CONSOLE_RED}NOT IMPLEMENTED${CONSOLE_NORMAL}"
