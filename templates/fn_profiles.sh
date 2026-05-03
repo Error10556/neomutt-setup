@@ -43,7 +43,7 @@ EOF
     fi
 
     local provider_guide="${PROVIDER_PASSWORD_HELP[$provider]}"
-    if [ ! -z provider_guide ]; then
+    if [ ! -z "$provider_guide" ]; then
         local blue_provider="${CONSOLE_BLUE}$provider${CONSOLE_NORMAL}"
         cat <<EOF
 Я могу помочь с получением пароля от адреса под доменом $blue_provider.
@@ -63,7 +63,7 @@ ${CONSOLE_BLUE}gmail.com${CONSOLE_NORMAL} этот пароль нужно со�
 EOF
     while :; do
         local -a opts=(0=Отмена .=Продолжить)
-        if [ ! -z provider_guide ]; then
+        if [ ! -z "$provider_guide" ]; then
             opts+=("?=Как получить пароль?")
         fi
         local ans=$(dialog_options "${opts[@]}")
