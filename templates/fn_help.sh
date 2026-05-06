@@ -60,6 +60,11 @@ ${CONSOLE_BLUE}rm -r \$HOME/.config/neomutt_setup${CONSOLE_NORMAL}
 ${CONSOLE_BLUE}pass rm -r mail${CONSOLE_NORMAL}
  - Кэш писем:
 ${CONSOLE_BLUE}rm -r \$HOME/.cache/neomutt${CONSOLE_NORMAL}
+ - Лаунчер:
+${CONSOLE_BLUE}rm \$HOME/.local/bin/emails${CONSOLE_NORMAL}
+ - (Опционально) \$HOME/.local/bin из PATH:
+${CONSOLE_BLUE}sed -i '/^export PATH="\\\$PATH:$LOCALBIN"$/d' ~/.bashrc
+   ${CONSOLE_NORMAL}(Однако лучше сделать это вручную, а не командой)
  - Приложения-зависимости, которые Вам больше не нужны, например, lynx, pass и
    neomutt.
 Этот скрипт не автоматизирует удаление.
