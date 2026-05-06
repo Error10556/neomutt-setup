@@ -17,7 +17,7 @@ pass_insert_guide() {
     local pass_entry_path="$HOME/.password-store/mail/$email.gpg"
     if [ -f "$pass_entry_path" ]; then
         cat <<EOF
-Кажется, запись для $blue_email уже есть в менеджере паролей.
+Похоже, запись для $blue_email уже есть в менеджере паролей.
 EOF
         while :; do
             echo "Что делать?"
@@ -82,7 +82,7 @@ EOF
         pass insert "mail/$email" && break
         console.red
         cat <<EOF
-Кажется, программа pass завершилась с ошибкой.
+Похоже, программа pass завершилась с ошибкой.
 EOF
         local ans=$(dialog_options 0=Отмена ".=Попробовать снова")
         echo
@@ -120,7 +120,7 @@ EOF
     done
 
     if [ -d "$PROFILEDIR/$email" ]; then
-        echo "${CONSOLE_RED}Кажется, такой профиль уже есть.$CONSOLE_NORMAL"
+        echo "${CONSOLE_RED}Похоже, такой профиль уже есть.$CONSOLE_NORMAL"
         return 1
     fi
 

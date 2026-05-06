@@ -77,7 +77,7 @@ gpg_adduid_guide_if_needed() {
     ! gpg_identities_with_secrets | grep -F "<$email>" &>/dev/null || return 0
     console.red
     cat <<EOF
-Кажется, $1 отсутствует в GnuPG.
+Похоже, $1 отсутствует в GnuPG.
 EOF
     console.normal
     gpg_adduid_guide "$1"
