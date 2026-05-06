@@ -59,8 +59,11 @@ if [ $i = 0 ]; then
     exit 1
 fi
 if [ $i = 1 ]; then
+    basename "${configdirs[0]}"
     exec neomutt -F "${configdirs[0]}/neomuttrc"
 fi
 ans=$(dialog_options "${options[@]}")
 if [ $ans = 0 ]; then exit 0; fi
-exec neomutt -F "${configdirs[$((ans - 1))]}/neomuttrc"
+targetdir="${configdirs[$((ans - 1))]}"
+basename "$targetdir"
+exec neomutt -F "$targetdir/neomuttrc"
