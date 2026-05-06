@@ -11,8 +11,8 @@ set smtp_pass = "\`pass mail/\$from\`"
 set ssl_starttls = yes
 set ssl_force_tls = yes
 
-set folder = "imaps://imap.gmail.com:993/"
-set spoolfile = "imaps://imap.gmail.com:993/INBOX"
+set folder = "imaps://imap.${RC_FROM##*@}:993/"
+set spoolfile = "imaps://imap.${RC_FROM##*@}:993/INBOX"
 mailboxes -notify -poll "\$spoolfile"
 set new_mail_command = "notify-send -u normal -a \\"neomutt\\" -t 2000 -i info \\"You've got mail!\\" \$from"
 unset record
