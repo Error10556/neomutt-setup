@@ -24,6 +24,7 @@ make_profile() {
     local RC_PGPKEY
     RC_PGPKEY="$(gpg_get_fpr "$1")"
     test $? = 0 || return 1
+    local RC_CACHE="$(tr '@' '_' <<<"$1")"
     local dir="$PROFILEDIR/$1"
     mkdir -p "$dir" || return 1
     local provider="${1##*@}"

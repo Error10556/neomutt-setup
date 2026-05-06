@@ -1,8 +1,8 @@
 set editor = "$RC_EDITOR"
 
-set header_cache = "\$HOME/.cache/neomutt/\$from/headers"
-set message_cachedir = "\$HOME/.cache/neomutt/\$from/bodies"
-set certificate_file = "\$HOME/.cache/neomutt/\$from/certificates"
+set header_cache = "\$HOME/.cache/neomutt/$RC_CACHE/headers"
+set message_cachedir = "\$HOME/.cache/neomutt/$RC_CACHE/bodies"
+set certificate_file = "\$HOME/.cache/neomutt/$RC_CACHE/certificates"
 
 set pager_index_lines = 10
 set pager_context = 3         # show 3 lines of context
