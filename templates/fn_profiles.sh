@@ -66,7 +66,7 @@ pass_insert_guide() {
     local blue_email="$CONSOLE_BLUE$email$CONSOLE_NORMAL"
     local provider="${email##*@}"
     provider="${provider,,}"
-    if [ pass_entry_exists "$email" ]; then
+    if pass_entry_exists "$email"; then
         cat <<EOF
 Похоже, запись для $blue_email уже есть в менеджере паролей.
 EOF
