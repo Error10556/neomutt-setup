@@ -29,7 +29,7 @@ done
 
 ] fn_dialog.sh
 
-CONFIGS="$HEAD/.config/neomutt_setup/configs"
+CONFIGS="$HOME/.config/neomutt_setup/configs"
 
 if [ $# -gt 0 ]; then
     configdir="$(find "$CONFIGS" -mindepth 1 \
