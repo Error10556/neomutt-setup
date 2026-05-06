@@ -66,13 +66,21 @@ setup_launcher
 
 main_action() {
     declare -a options=("+=Добавить почтовый ящик")
-    # maybe I'll add profile editing
+    i=0
+    profiles_str="$(enum_profiles)"
+    declare -a profiles=()
+    while read -r; do
+        test ! -z "$REPLY" || continue
+        profiles+=("$REPLY")
+        options+=("$((++i))=${CONSOLE_RED}Удалить${CONSOLE_NORMAL} $REPLY")
+    done <<<"$profiles_str"
     options+=("0=Выйти" "Q=Выйти")
     ans=$(dialog_options "${options[@]}")
     echo
     case $ans in
         +) new_profile_guide || true;;
         0 | q) exit 0;;
+        *) delete_profile "${profiles[$((ans - 1))]}";;
     esac
 }
 

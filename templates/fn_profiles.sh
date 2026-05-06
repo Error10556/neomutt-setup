@@ -8,6 +8,11 @@ mkdir -p "$PROFILEDIR"
 declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_password_guide \
     ["yandex.ru"]=yandex_password_guide)
 
+enum_profiles() {
+    test -d "$PROFILEDIR" || return 0
+    find "$PROFILEDIR" -mindepth 1 -maxdepth 1 -type d
+}
+
 # make_profile <email> <realname> <editor>
 make_profile() {
     local RC_FROM="$1"
@@ -216,4 +221,66 @@ EOF
         echo
     fi
     console.normal
+}
+
+# delete_profile_guide <email>
+# $? != 0  =>  aborted
+delete_profile_guide() {
+    prompt() {
+        dialog_options Y=Да N=Нет 0=Отмена
+        echo >&2
+    }
+
+    local delete_pass=0
+    if pass_entry_exists "$1"; then
+        cat <<EOF
+Удалить запись из менеджера паролей ${CONSOLE_BLUE}pass${CONSOLE_NORMAL}?
+EOF
+        case $(prompt) in
+            y) delete_pass=1;;
+            0) return 1;;
+        esac
+    fi
+
+    local cache_dir="$HOME/.cache/neomutt/$email"
+    local delete_cache=0
+    if [ -d "$cache_dir" ]; then
+        printf "Удалить кэш писем"
+        local cache_size
+        if cache_size="$(du -h -d 0 "$cache_dir" 2>/dev/null)"; then
+            cache_size="$(grep -Eo '^[^[:space:]]+' <<<"$cache_size")"
+            printf " ($CONSOLE_BLUE%s$CONSOLE_NORMAL)" "$cache_size"
+        fi
+        unset cache_size
+        echo "?"
+        case $(prompt) in
+            y) delete_cache=1;;
+            0) return 1;;
+        esac
+    fi
+
+    echo "${CONSOLE_RED}Я собираюсь выполнить это:${CONSOLE_NORMAL}"
+    echo "${CONSOLE_BLUE}# Удалить профиль${CONSOLE_NORMAL}"
+    echo "${CONSOLE_RED}rm${CONSOLE_NORMAL} -r $PROFILEDIR/$email"
+    if [ $delete_pass = 1 ]; then
+        echo "${CONSOLE_BLUE}# Удалить запись pass${CONSOLE_NORMAL}"
+        echo "${CONSOLE_RED}pass rm${CONSOLE_NORMAL} mail/$email"
+    fi
+    if [ $delete_cache = 1 ]; then
+        echo "${CONSOLE_BLUE}# Удалить кэш${CONSOLE_NORMAL}"
+        echo "${CONSOLE_RED}rm${CONSOLE_NORMAL} -r $cache_dir"
+    fi
+    echo
+    echo "Вы уверены?"
+    local ans=$(dialog_options Y=Да N=Нет)
+    echo
+    test $ans = y || return 1
+    
+    echo "${CONSOLE_BLUE}rm -r $PROFILEDIR/$email${CONSOLE_NORMAL}"
+    rm -r "$PROFILEDIR/$email"
+    echo "${CONSOLE_BLUE}pass rm mail/$email${CONSOLE_NORMAL}"
+    pass rm "mail/$email"
+    echo "${CONSOLE_BLUE}rm -r $cache_dir${CONSOLE_NORMAL}"
+    rm -r "$cache_dir"
+    true
 }

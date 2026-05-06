@@ -1,3 +1,5 @@
+] pass/fn_pass_entry_exists.sh
+
 pass_directory_exists() {
     test -d "$HOME/.password-store"
 }
