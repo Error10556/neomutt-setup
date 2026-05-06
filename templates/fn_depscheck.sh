@@ -1,4 +1,4 @@
-readonly DEPENDENCIES=(sed gpg pass neomutt lynx)
+readonly DEPENDENCIES=(head tail grep which cut sed gpg pass neomutt lynx)
 depscheck() {
     dependency_installed() {
         which "$1" &>/dev/null </dev/null
