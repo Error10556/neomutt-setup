@@ -64,6 +64,8 @@ setup_launcher
 
 ] fn_profiles.sh
 
+] fn_help.sh
+
 main_action() {
     declare -a options=("+=Добавить почтовый ящик")
     i=0
@@ -74,11 +76,12 @@ main_action() {
         profiles+=("$REPLY")
         options+=("$((++i))=${CONSOLE_RED}Удалить${CONSOLE_NORMAL} $REPLY")
     done <<<"$profiles_str"
-    options+=("0=Выйти" "Q=Выйти")
+    options+=("?=Справка" "0=Выйти" "Q=Выйти")
     ans=$(dialog_options "${options[@]}")
     echo
     case $ans in
         +) new_profile_guide || true;;
+        ?) help_guide || true;;
         0 | q) exit 0;;
         *) delete_profile_guide "${profiles[$((ans - 1))]}";;
     esac
