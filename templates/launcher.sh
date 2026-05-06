@@ -59,7 +59,7 @@ if [ $i = 0 ]; then
     exit 1
 fi
 if [ $i = 1 ]; then
-    exec neomutt -F "${configdirs[1]}/neomuttrc"
+    exec neomutt -F "${configdirs[0]}/neomuttrc"
 fi
 ans=$(dialog_options "${options[@]}")
 if [ $ans = 0 ]; then exit 0; fi
