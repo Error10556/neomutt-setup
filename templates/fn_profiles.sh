@@ -247,7 +247,7 @@ EOF
         esac
     fi
 
-    local cache_dir="$HOME/.cache/neomutt/$email"
+    local cache_dir="$HOME/.cache/neomutt/$(tr '@' '_' <<<"$email")"
     local delete_cache=0
     if [ -d "$cache_dir" ]; then
         printf "Удалить кэш писем"
