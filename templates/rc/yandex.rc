@@ -2,7 +2,7 @@ set from = "$RC_FROM"
 set realname = "$RC_REALNAME"
 
 set imap_user = "$from"
-set smtp_url = "smtps://\$from@smtp.gmail.com:465/"
+set smtp_url = "smtps://\$from@smtp.yandex.ru:465/"
 set smtp_authenticators = 'gssapi:login'
 
 set imap_pass = "\`pass mail/\$from\`"
@@ -14,7 +14,7 @@ set ssl_force_tls = yes
 set folder = "imaps://imap.yandex.ru:993/"
 set spoolfile = "imaps://imap.yandex.ru:993/INBOX"
 mailboxes -notify -poll "\$spoolfile"
-mailboxes -notify -poll =Исходящие                                                                                                          
+mailboxes -notify -poll =Исходящие
 mailboxes -notify -poll =Отправленные
 # set record = =Отправленные
 mailboxes -notify -poll =Спам
