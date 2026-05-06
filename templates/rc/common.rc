@@ -64,7 +64,7 @@ bind pager G bottom
 bind attach,index g first-entry
 bind attach,index G last-entry
 
-set mailcap_path = "\$HOME/.config/neomutt_setup/\$from/mailcap"
+set mailcap_path = "\$HOME/.config/neomutt_setup/configs/\$from/mailcap"
 bind attach <return> view-mailcap
 macro attach s '<save-entry> <bol>~/Documents/attachments/<eol>' 'save attachment'
 auto_view text/html
