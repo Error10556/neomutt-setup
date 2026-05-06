@@ -8,6 +8,49 @@ mkdir -p "$PROFILEDIR"
 declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_password_guide \
     ["yandex.ru"]=yandex_password_guide)
 
+# _make_profile <email> <realname> <editor>
+_make_profile() {
+    local RC_FROM="$1"
+    local RC_REALNAME="$2"
+    local RC_EDITOR="$3"
+    local RC_PGPKEY
+    RC_PGPKEY="$(gpg_get_fpr "$1")"
+    test $? = 0 || return 1
+    local dir="$PROFILEDIR/$1"
+    mkdir -p "$dir" || return 1
+    local provider="${1##*@}"
+    provider="${provider,,}"
+    case "$provider" in
+        gmail.com)
+            cat >"$dir/neomuttrc" <<NEOMUTTRC_EOF
+] rc/gmail.rc
+NEOMUTTRC_EOF
+            test $? = 0 || return 1
+            ;;
+        yandex.ru)
+            cat >"$dir/neomuttrc" <<NEOMUTTRC_EOF
+] rc/yandex.rc
+NEOMUTTRC_EOF
+            test $? = 0 || return 1
+            ;;
+        *)
+            local warning="${CONSOLE_RED}ВНИМАНИЕ${CONSOLE_NORMAL}"
+            cat <<EOF
+$warning: $provider мне (пока) неизвестен, поэтому настраиваю на авось. Если
+почта не откроется, Вам придётся менять конфиг самостоятельно! Путь:
+$CONSOLE_BLUE$dir/neomuttrc$CONSOLE_NORMAL
+EOF
+            cat >"$dir/neomuttrc" <<NEOMUTTRC_EOF
+] rc/_generic.rc
+NEOMUTTRC_EOF
+            test $? = 0 || return 1
+            ;;
+    esac
+    cat >"$dir/mailcap" <<MAILCAP_EOF
+] rc/mailcap.rc
+MAILCAP_EOF
+}
+
 # pass_insert_guide <email>
 # $? != 0  =>  aborted
 pass_insert_guide() {
@@ -54,12 +97,14 @@ EOF
         test $ans = n || $provider_guide
     fi
 
+    local blugmail="${CONSOLE_BLUE}gmail.com${CONSOLE_NORMAL}"
+    local bluyandx="${CONSOLE_BLUE}yandex.ru${CONSOLE_NORMAL}"
     cat <<EOF
 Сейчас я запущу команду
 ${CONSOLE_BLUE}pass insert "mail/$email"${CONSOLE_NORMAL}
 Это добавит запись в менеджер паролей. От Вас потребуется дважды ввести пароль
-от почты. Заметьте, что это не всегда пароль от учётной записи (например, для
-${CONSOLE_BLUE}gmail.com${CONSOLE_NORMAL} этот пароль нужно создавать отдельно).
+от почты. Заметьте, что это не пароль от учётной записи (например, для $blugmail
+и $bluyandex этот пароль нужно создавать отдельно).
 EOF
     while :; do
         local -a opts=(0=Отмена .=Продолжить)
@@ -132,7 +177,43 @@ EOF
     realname="${realname%% <*}"
     realname="${realname%% (*}"
 
-    mkdir -p "$PROFILEDIR/$email"
+    local nan="${CONSOLE_BLUE}nano${CONSOLE_NORMAL}"
+    local vi="${CONSOLE_BLUE}vim${CONSOLE_NORMAL}"
+    local nvi="${CONSOLE_BLUE}nvim${CONSOLE_NORMAL}"
+    cat <<EOF
+Последний вопрос: какой консольный редактор Вы используете (вроде $nan, $vi,
+$nvi)? Если Вы не знаете, то напишите ${CONSOLE_GREEN}nano${CONSOLE_NORMAL}.
+EOF
+    while :; do
+        local editor="$(dialog_getline_nonempty)"
+        echo
+        ! which "$editor" &>/dev/null </dev/null || break
+        console.red
+        cat <<EOF
+Кажется, такой программы нет в системе. Вы не опечатались?
+EOF
+        test $(dialog_options "R=Ввести заново" ".=Всё правильно") = r || break
+        echo
+    done
 
-    echo "${CONSOLE_RED}not implemented${CONSOLE_NORMAL}"
+    if make_profile "$email" "$realname" "$editor"; then
+        console.green
+        cat <<EOF
+Профиль $email успешно создан. Принимайте работу ;)
+EOF
+        console.normal
+        return 0
+    fi
+    console.red
+    cat <<EOF
+Создать профиль не удалось. Почему? Надеюсь, чуть выше вывелись сообщения об
+ошибках, там, может, будет сказано. Простите за потраченное время.
+
+EOF
+    if [ -d "$PROFILEDIR/$email" ]; then
+        echo "Удаляю директорию $email..."
+        rm -r "$PROFILEDIR/$email" || true
+        echo
+    fi
+    console.normal
 }
