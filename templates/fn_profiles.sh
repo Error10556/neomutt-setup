@@ -10,7 +10,10 @@ declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_password_guide \
 
 enum_profiles() {
     test -d "$PROFILEDIR" || return 0
-    find "$PROFILEDIR" -mindepth 1 -maxdepth 1 -type d
+    local lst="$(find "$PROFILEDIR" -mindepth 1 -maxdepth 1 -type d)"
+    if [ -z "$lst" ]; then return 0; else
+        xargs -n 1 basename <<<"$lst"
+    fi
 }
 
 # make_profile <email> <realname> <editor>
