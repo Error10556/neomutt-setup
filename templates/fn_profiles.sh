@@ -283,9 +283,13 @@ EOF
     
     echo "${CONSOLE_BLUE}rm -r $PROFILEDIR/$email${CONSOLE_NORMAL}"
     rm -r "$PROFILEDIR/$email"
-    echo "${CONSOLE_BLUE}pass rm -f mail/$email${CONSOLE_NORMAL}"
-    pass rm -f "mail/$email"
-    echo "${CONSOLE_BLUE}rm -r $cache_dir${CONSOLE_NORMAL}"
-    rm -r "$cache_dir"
+    if [ $delete_pass = 1 ]; then
+        echo "${CONSOLE_BLUE}pass rm -f mail/$email${CONSOLE_NORMAL}"
+        pass rm -f "mail/$email"
+    fi
+    if [ $delete_cache = 1 ]; then
+        echo "${CONSOLE_BLUE}rm -r $cache_dir${CONSOLE_NORMAL}"
+        rm -r "$cache_dir"
+    fi
     true
 }
