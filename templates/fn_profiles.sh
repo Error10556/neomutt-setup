@@ -234,8 +234,10 @@ delete_profile_guide() {
         echo >&2
     }
 
+    local email="$1"
+
     local delete_pass=0
-    if pass_entry_exists "$1"; then
+    if pass_entry_exists "$email"; then
         cat <<EOF
 Удалить запись из менеджера паролей ${CONSOLE_BLUE}pass${CONSOLE_NORMAL}?
 EOF
