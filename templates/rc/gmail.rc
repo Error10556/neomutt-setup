@@ -1,0 +1,30 @@
+set from = "$RC_FROM"
+set realname = "$RC_REALNAME"
+
+set imap_user = "\$from"
+set smtp_url = "smtps://\$from@smtp.gmail.com:465/"
+set smtp_authenticators = 'gssapi:login'
+
+set imap_pass = "`pass mail/\$from`"
+set smtp_pass = "`pass mail/\$from`"
+
+set ssl_starttls = yes
+set ssl_force_tls = yes
+
+set folder = "imaps://imap.gmail.com:993/[Gmail]"
+set spoolfile = "imaps://imap.gmail.com:993/INBOX"
+mailboxes -notify -poll "\$spoolfile"
+mailboxes -notify -poll =Важное
+mailboxes -notify -poll "=Вся почта"
+mailboxes -notify -poll =Корзина
+set trash = =Корзина
+mailboxes -notify -poll =Отправленные
+# set record = "=Отправленные"
+mailboxes -notify -poll =Помеченные
+mailboxes -notify -poll =Спам
+mailboxes -notify -poll =Черновики
+set postponed = =Черновики
+set new_mail_command = "notify-send -u normal -a \\"neomutt\\" -t 2000 -i info \\"You've got mail!\\" \$from"
+unset record
+
+] rc/common.rc
