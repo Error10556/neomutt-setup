@@ -66,6 +66,7 @@ setup_launcher
 
 main_action() {
     declare -a options=("+=Добавить почтовый ящик")
+    # maybe I'll add profile editing
     options+=("0=Выйти" "Q=Выйти")
     ans=$(dialog_options "${options[@]}")
     echo
