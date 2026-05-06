@@ -62,11 +62,11 @@ MAILCAP_EOF
 # pass_insert_guide <email>
 # $? != 0  =>  aborted
 pass_insert_guide() {
+    local email="$1"
     local blue_email="$CONSOLE_BLUE$email$CONSOLE_NORMAL"
     local provider="${email##*@}"
     provider="${provider,,}"
-    local pass_entry_path="$HOME/.password-store/mail/$email.gpg"
-    if [ -f "$pass_entry_path" ]; then
+    if [ pass_entry_exists "$email" ]; then
         cat <<EOF
 Похоже, запись для $blue_email уже есть в менеджере паролей.
 EOF
@@ -84,9 +84,9 @@ EOF
                 !) 
                     
                     cat <<EOF
-Выполняю ${CONSOLE_RED}rm "$pass_entry_path"${CONSOLE_NORMAL}...
+Выполняю ${CONSOLE_RED}pass rm -f "mail/$email"${CONSOLE_NORMAL}...
 EOF
-                    rm "$pass_entry_path";;
+                    pass rm -f "mail/$email";;
                 .) return 0;;
             esac
             break
