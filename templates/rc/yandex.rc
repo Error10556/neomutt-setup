@@ -5,8 +5,8 @@ set imap_user = "$from"
 set smtp_url = "smtps://\$from@smtp.gmail.com:465/"
 set smtp_authenticators = 'gssapi:login'
 
-set imap_pass = "`pass mail/$from`"
-set smtp_pass = "`pass mail/\$from`"
+set imap_pass = "\`pass mail/\$from\`"
+set smtp_pass = "\`pass mail/\$from\`"
 
 set ssl_starttls = yes
 set ssl_force_tls = yes
