@@ -30,7 +30,7 @@ EOF
     case $ans in
         0) return 1;;
         -) test $(dialog_options 0=Отмена .=Продолжить) = .; return $?;;
-        *) local chosen_existing_id="${existing_emails[$((i - 1))]}";;
+        *) local chosen_existing_id="${existing_emails[$((ans - 1))]}";;
     esac
 
     echo "Введите своё имя, которое хотите связать с <$blue_email>"
