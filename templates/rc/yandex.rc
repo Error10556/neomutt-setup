@@ -1,7 +1,7 @@
 set from = "$RC_FROM"
 set realname = "$RC_REALNAME"
 
-set imap_user = "$from"
+set imap_user = "\$from"
 set smtp_url = "smtps://\$from@smtp.yandex.ru:465/"
 set smtp_authenticators = 'gssapi:login'
 
