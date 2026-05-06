@@ -49,6 +49,10 @@ help_after_install() {
 EOF
 }
 
+escape_path_for_regex() {
+    sed 's/[./]/\\&/g'
+}
+
 help_purge() {
     cat <<EOF
 Понадобится удалить:
@@ -63,7 +67,8 @@ ${CONSOLE_BLUE}rm -r \$HOME/.cache/neomutt${CONSOLE_NORMAL}
  - Лаунчер:
 ${CONSOLE_BLUE}rm \$HOME/.local/bin/emails${CONSOLE_NORMAL}
  - (Опционально) \$HOME/.local/bin из PATH:
-${CONSOLE_BLUE}sed -i '/^export PATH="\\\$PATH:$LOCALBIN"$/d' ~/.bashrc
+${CONSOLE_BLUE}sed -i '/^export PATH="\\\$PATH:$(escape_path_for_regex \
+        <<<"$LOCALBIN")"$/d' ~/.bashrc
    ${CONSOLE_NORMAL}(Однако лучше сделать это вручную, а не командой)
  - Приложения-зависимости, которые Вам больше не нужны, например, lynx, pass и
    neomutt.
