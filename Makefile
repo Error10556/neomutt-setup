@@ -10,8 +10,8 @@ build/templates/launcher-escaped.sh: build/templates/launcher.sh \
 	bash-escaper.sh | build/templates
 	./bash-escaper.sh <$< >$@
 
-build/templates/launcher.sh: templates/launcher.sh templater.sh \
-	| build/templates
+build/templates/launcher.sh: templates/launcher.sh templates/version.sh \
+	templates/colors.sh templates/fn_dialog.sh templater.sh | build/templates
 	./templater.sh $< >$@
 
 build/templates: | build
