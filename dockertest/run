@@ -1,0 +1,5 @@
+#!/bin/sh
+
+docker build -t neomutt-setup-test-arch .
+docker run -itv ../build/neomutt-setup.sh:/home/user1/neomutt-setup.sh:ro \
+    neomutt-setup-test-arch
