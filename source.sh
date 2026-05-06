@@ -80,7 +80,7 @@ main_action() {
     case $ans in
         +) new_profile_guide || true;;
         0 | q) exit 0;;
-        *) delete_profile "${profiles[$((ans - 1))]}";;
+        *) delete_profile_guide "${profiles[$((ans - 1))]}";;
     esac
 }
 
