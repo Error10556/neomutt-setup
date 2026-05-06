@@ -8,8 +8,8 @@ mkdir -p "$PROFILEDIR"
 declare -A PROVIDER_PASSWORD_HELP=(["gmail.com"]=gmail_password_guide \
     ["yandex.ru"]=yandex_password_guide)
 
-# _make_profile <email> <realname> <editor>
-_make_profile() {
+# make_profile <email> <realname> <editor>
+make_profile() {
     local RC_FROM="$1"
     local RC_REALNAME="$2"
     local RC_EDITOR="$3"
