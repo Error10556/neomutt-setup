@@ -10,16 +10,17 @@ for arg in "$@"; do
         cat <<EOF
 Лаунчер emails $VERSION
 Использование:
-$0 --help|-h  (1)
-$0 name       (2)
-$0            (3)
+emails --help|-h  (1)
+emails name       (2)
+emails            (3)
 
 (1) Показать эту справку
 (2) Запустить neomutt на любом профиле, начинающемся на 'name'.
-(3) Интерактивно выбрать профиль, затем запустить neomutt.
+(3) Если создан 1 профиль, запустить neomutt на нём.
+    Иначе интерактивно выбрать профиль, затем запустить neomutt.
 
 Примеры:
-$0 t
+emails t
 (Это откроет 'torvalds@linux-foundation.org', если такой профиль существует)
 EOF
         exit 0
@@ -56,6 +57,9 @@ unset configdirs_str
 if [ $i = 0 ]; then
     echo "Нет профилей"
     exit 1
+fi
+if [ $i = 1 ]; then
+    exec neomutt -F "${configdirs[1]}/neomuttrc"
 fi
 ans=$(dialog_options "${options[@]}")
 if [ $ans = 0 ]; then exit 0; fi
